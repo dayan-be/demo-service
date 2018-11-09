@@ -5,7 +5,6 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
-	"sync"
 )
 
 type Configs struct {
@@ -29,7 +28,7 @@ func Config() *Configs {
 	return cfgIns
 }
 
-func LoadConfig(filename string) *Configs {
+func LoadConfig(filename string){
 
 	buff, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -40,7 +39,6 @@ func LoadConfig(filename string) *Configs {
 	if err != nil {
 		goto FAILED
 	}
-	return cfgIns
 
 FAILED:
 	fmt.Printf("failed:%v",err)

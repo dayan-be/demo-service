@@ -28,7 +28,7 @@ func main() {
 	}
 
 	//1.load configer
-	cfg := global.LoadConfig("config.yaml")
+	global.LoadConfig("config.yaml")
 
 	//2.log
 	logrus.SetLevel(logrus.DebugLevel)
