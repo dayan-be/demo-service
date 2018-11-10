@@ -6,7 +6,9 @@ import (
 	"github.com/dayan-be/demo-service/logic"
 	"github.com/dayan-be/demo-service/global"
 	"github.com/dayan-be/demo-service/proto"
+	"github.com/dayan-be/kit/log"
 	"github.com/micro/go-micro"
+	"github.com/micro/go-micro/registry"
 	"github.com/sirupsen/logrus"
 	"strconv"
 	"time"
@@ -18,7 +20,6 @@ var (
 )
 
 func main() {
-
 	//显示版本号信息　
 	version := flag.Bool("v", false, "version")
 	flag.Parse()
@@ -28,9 +29,11 @@ func main() {
 		fmt.Println("Build Time: " + BuildTime)
 		return
 	}
-
 	// log
-	logrus.SetLevel(logrus.DebugLevel)
+	logrus.SetOutput(log.NewLogFile(
+		log.LogFilePath("log"),
+		log.LogFileSize(global.Config().Log.FileSize, global.Config().Log.FileSizeUnit),
+		log.LogFileTime(true)))
 
 	service := micro.NewService(
 		micro.Name(global.Config().Srv.SrvName),
@@ -38,11 +41,11 @@ func main() {
 		micro.RegisterInterval(time.Second*10),
 		micro.Version(global.Config().Srv.Version),
 		micro.Metadata(map[string]string{"ID": strconv.FormatUint(uint64(global.Config().Srv.SrvId), 10)}),
-	)
+		micro.Registry(registry.NewRegistry(registry.Addrs(global.Config().Registry.Addr))))
+
 	service.Init()
 
 	demo.RegisterSayHandler(service.Server(), &logic.Handle{})
-
 	if err := service.Run(); err != nil {
 		logrus.Fatalf("service run error: %v", err)
 	}

@@ -1,8 +1,11 @@
+registry:
+    addr: "127.0.0.1:8500"
 srv:
-    srvName: acess-service
+    srvName: demo-service
     srvId: 0
-    port: 8080
+    addr:
 log:
-    logLevel: 1
-    logFileSize: 10
+    level: 1
+    fileSize: 10
+    fileSizeUnit: M
     jsonFile: false

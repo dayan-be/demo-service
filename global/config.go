@@ -8,6 +8,10 @@ import (
 )
 
 type Configs struct {
+	Registry struct {
+		Addr    string `yaml:"addr"`
+	}
+
 	Srv struct {
 		SrvName string `yaml:"srvName"`
 		SrvId   uint32 `yaml:"srvId"`
@@ -16,9 +20,10 @@ type Configs struct {
 	}
 
 	Log struct {
-		Level    int  `yaml:"level"`
-		FileSize int  `yaml:"fileSize"`
-		Json     bool `yaml:"json"`
+		Level        int    `yaml:"level"`
+		FileSize     int    `yaml:"fileSize"`
+		FileSizeUnit string `yaml:"fileSizeUnit"`
+		JsonFile     bool   `yaml:"jsonFile"`
 	}
 }
 
@@ -28,7 +33,7 @@ func Config() *Configs {
 	return cfgIns
 }
 
-func LoadConfig(filename string){
+func LoadConfig(filename string) {
 
 	buff, err := ioutil.ReadFile(filename)
 	if err != nil {
@@ -39,13 +44,15 @@ func LoadConfig(filename string){
 	if err != nil {
 		goto FAILED
 	}
-
+	return
 FAILED:
-	fmt.Printf("failed:%v",err)
+	fmt.Printf("LoadConfig failed:%v", err)
 	os.Exit(1)
 }
 
 func init() {
+	fmt.Println("11111111111111111")
 	cfgIns = &Configs{}
 	LoadConfig("config.yaml")
+	fmt.Println("2222222222222222")
 }
