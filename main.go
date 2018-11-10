@@ -3,11 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/dayan-be/demo-service/logic"
 	"github.com/dayan-be/demo-service/global"
+	"github.com/dayan-be/demo-service/proto"
+	"github.com/micro/go-micro"
 	"github.com/sirupsen/logrus"
-	"os"
-	"os/signal"
-	"syscall"
+	"strconv"
+	"time"
 )
 
 var (
@@ -27,17 +29,21 @@ func main() {
 		return
 	}
 
-	//1.load configer
-	global.LoadConfig("config.yaml")
-
-	//2.log
+	// log
 	logrus.SetLevel(logrus.DebugLevel)
 
+	service := micro.NewService(
+		micro.Name(global.Config().Srv.SrvName),
+		micro.RegisterTTL(time.Second*30),
+		micro.RegisterInterval(time.Second*10),
+		micro.Version(global.Config().Srv.Version),
+		micro.Metadata(map[string]string{"ID": strconv.FormatUint(uint64(global.Config().Srv.SrvId), 10)}),
+	)
+	service.Init()
 
+	demo.RegisterSayHandler(service.Server(), &logic.Handle{})
 
-
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, syscall.SIGUSR1)
-	<-c
-	os.Exit(0)
+	if err := service.Run(); err != nil {
+		logrus.Fatalf("service run error: %v", err)
+	}
 }

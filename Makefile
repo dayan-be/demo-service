@@ -13,7 +13,8 @@ all:clean proto release
 clean:
 	rm -f ${OUTPUT}
 
-proto: proto/demo.proto
+.PHONY:proto
+proto: $(wildcard proto/*.proto)
 	make -C proto
 
 release:
