@@ -34,9 +34,9 @@ func main() {
 	logrus.SetLevel(level)
 
 	logrus.SetOutput(log.NewLogFile(
-		log.LogFilePath("log"),
-		log.LogFileSize(global.Config().Log.FileSize, global.Config().Log.FileSizeUnit),
-		log.LogFileTime(true)))
+		log.FilePath("log"),
+		log.FileSize(global.Config().Log.FileSize, global.Config().Log.FileSizeUnit),
+		log.FileTime(true)))
 
 	service := micro.NewService(
 		micro.Name(global.Config().Srv.SrvName),
