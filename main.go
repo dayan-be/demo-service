@@ -30,6 +30,9 @@ func main() {
 		return
 	}
 	// log
+	level, _ := logrus.ParseLevel(global.Config().Log.Level)
+	logrus.SetLevel(level)
+
 	logrus.SetOutput(log.NewLogFile(
 		log.LogFilePath("log"),
 		log.LogFileSize(global.Config().Log.FileSize, global.Config().Log.FileSizeUnit),

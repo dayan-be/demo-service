@@ -20,7 +20,7 @@ type Configs struct {
 	}
 
 	Log struct {
-		Level        int    `yaml:"level"`
+		Level        string `yaml:"level"`
 		FileSize     int    `yaml:"fileSize"`
 		FileSizeUnit string `yaml:"fileSizeUnit"`
 		JsonFile     bool   `yaml:"jsonFile"`
@@ -51,8 +51,6 @@ FAILED:
 }
 
 func init() {
-	fmt.Println("11111111111111111")
 	cfgIns = &Configs{}
 	LoadConfig("config.yaml")
-	fmt.Println("2222222222222222")
 }
