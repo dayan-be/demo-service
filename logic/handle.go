@@ -1,7 +1,7 @@
 package logic
 
 import (
-	"github.com/dayan-be/demo-service/proto"
+	"github.com/dayan-be/demo-service/proto/demo"
 	"github.com/sirupsen/logrus"
 	"golang.org/x/net/context"
 )

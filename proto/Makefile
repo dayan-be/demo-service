@@ -1,6 +1,7 @@
-.PHONY:all
-all:  $(wildcard *.pb.go)
+.PHONY:all clean
+exclude_dirs := Makefile
+dirs := $(shell ls)
+dirs := $(filter-out $(exclude_dirs),$(dirs))
+all:
+	$(foreach N,$(dirs),make -C $(N);)
 
-
-%.pb.go:%.proto
-	protoc -I. --go_out=. --micro_out=. demo.proto

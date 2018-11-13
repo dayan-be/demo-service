@@ -15,7 +15,7 @@ clean:
 	rm -f ${OUTPUT}
 
 .PHONY:proto
-proto: $(wildcard proto/*.proto)
+proto:
 	make -C proto
 
 release:

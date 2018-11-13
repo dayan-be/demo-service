@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/dayan-be/demo-service/logic"
 	"github.com/dayan-be/demo-service/global"
-	"github.com/dayan-be/demo-service/proto"
+	"github.com/dayan-be/demo-service/proto/demo"
 	"github.com/dayan-be/kit/log"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/registry"
@@ -34,9 +34,9 @@ func main() {
 	logrus.SetLevel(level)
 
 	logrus.SetOutput(log.NewLogFile(
-		log.LogFilePath("log"),
-		log.LogFileSize(global.Config().Log.FileSize, global.Config().Log.FileSizeUnit),
-		log.LogFileTime(true)))
+		log.FilePath("log"),
+		log.FileSize(global.Config().Log.FileSize, global.Config().Log.FileSizeUnit),
+		log.FileTime(true)))
 
 	service := micro.NewService(
 		micro.Name(global.Config().Srv.SrvName),
