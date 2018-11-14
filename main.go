@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/dayan-be/demo-service/logic"
-	"github.com/dayan-be/demo-service/global"
 	"github.com/dayan-be/demo-service/proto/demo"
 	"github.com/dayan-be/kit/log"
+	"github.com/dayan-be/kit/config"
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/registry"
 	"github.com/sirupsen/logrus"
@@ -30,7 +30,7 @@ func main() {
 		return
 	}
 	// log
-	level, _ := logrus.ParseLevel(global.Config().Log.Level)
+	level, _ := logrus.ParseLevel(config.Config().Log.Level)
 	logrus.SetLevel(level)
 
 	logrus.SetOutput(log.NewLogFile(
